@@ -5,7 +5,7 @@
 Like all my practice projects I setup goals that I try to reach.
 
 ## Goals
-* Use cmake
+* ~~Use cmake~~
 * It should actually work
 * Create a simple SSH client
 * Take an array of ip addresses
