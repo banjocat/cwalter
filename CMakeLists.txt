@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.6)
+project (cwalter)
+add_library(cwalter SHARED cwalter.c)
+project (tests)
+add_executable(tests test.c)
