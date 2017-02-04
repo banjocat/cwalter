@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "minunit.h"
+#include "cwalter.h"
 
 int tests_run = 0;
 
