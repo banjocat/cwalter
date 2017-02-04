@@ -6,3 +6,5 @@ target_link_libraries(cwalter Libssh2::libssh2)
 project (tests)
 add_executable(tests test.c)
 target_link_libraries(tests cwalter)
+
+install (TARGETS cwalter DESTINATION include)
