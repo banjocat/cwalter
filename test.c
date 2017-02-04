@@ -11,14 +11,18 @@ static char *test_minunit() {
 }
 
 static char *test_configs() {
-        cwalter_config config;
+        cwalter_config *config;
         const char * ips[] = { "localhost" };
         config = cwalter_init_config(
-                        ips, 22, "banjocat",
-                        "~/.ssh/id_rsa");
-        mu_assert("port", config.port == 22);
-        mu_assert("hostname", !strcmp(config.user, "banjocat"));
+                        22, "banjocat",
+                        "~/.ssh/id_rsa",
+                        ips, 1);
+        cwalter_print_config(config);
+        mu_assert("port", config->port == 22);
+        mu_assert("hostname", !strcmp(config->user, "banjocat"));
+        cwalter_free_config(config);
 }
+
 
 static char *all_tests() {
         mu_run_test(test_minunit);
