@@ -16,6 +16,7 @@ static char *test_configs() {
         config = cwalter_init_config(
                         ips, 22, "banjocat",
                         "~/.ssh/id_rsa");
+        mu_assert("port", config.port == 22);
         mu_assert("hostname", !strcmp(config.user, "banjocat"));
 }
 
