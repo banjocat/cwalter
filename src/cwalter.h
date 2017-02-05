@@ -11,7 +11,7 @@ typedef struct {
 
 typedef struct {
     cwalter_config *config;
-    ssh_session **sessions;
+    ssh_session *sessions;
     int session_length;
 } cwalter_session;
 

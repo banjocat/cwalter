@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+
 #include <libssh/libssh.h>
+
 #include "cwalter.h"
 
 
@@ -18,9 +20,15 @@ cwalter_session *cwalter_session_new(
         const char **ips, size_t ips_len)
 {
         assert(user && pem && ips);
+        assert(ips_len > 0);
         cwalter_session *session = malloc(sizeof(cwalter_session));
         session->config = cwalter_config_new(
                         port, user, pem, ips, ips_len);
+        session->session_length = ips_len;
+        ssh_session sessions[ips_len];
+        for (int i = 0; i < ips_len; i++) {
+                sessions[i] = ssh_new();
+        }
         return session;
 }
 
@@ -51,8 +59,6 @@ cwalter_config *cwalter_config_new(
         }
         return config;
 }
-
-
 
 
 int cwalter_config_free(cwalter_config *config)
