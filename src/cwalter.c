@@ -51,7 +51,11 @@ int cwalter_session_connect(cwalter_session *session)
 {
         for (int i = 0; i < session->session_length; i++) {
                 int rc = ssh_connect(session->sessions[i]);
-                ssh_write_knownhost(session->sessions[i]);
+                int state = ssh_is_server_known(session->sessions[i]);
+                if (state == SSH_SERVER_NOT_KNOWN ||
+                                state == SSH_SERVER_FILE_NOT_FOUND) {
+                        ssh_write_knownhost(session->sessions[i]);
+                }
         }
         return 0;
 }
@@ -115,6 +119,4 @@ char* create_string(const char *str)
         strcpy(string, str);
         return string;
 }
-
-
 
