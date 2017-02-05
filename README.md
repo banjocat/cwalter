@@ -6,7 +6,7 @@ Like all my practice projects I setup goals that I try to reach.
 
 ## Requirements to build
 * cmake
-* https://www.libssh2.org/
+* https://www.libssh.org/
 
 ## Goals
 * ~~Use cmake~~
