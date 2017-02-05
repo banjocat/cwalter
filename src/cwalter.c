@@ -42,12 +42,25 @@ int cwalter_session_free(cwalter_session *session)
         for (int i = 0; i < session->session_length; i++) {
                 ssh_free(session->sessions[i]);
         }
+        free(session->sessions);
         free(session);
         return 0;
 }
 
 int cwalter_session_connect(cwalter_session *session)
 {
+        for (int i = 0; i < session->session_length; i++) {
+                int rc = ssh_connect(session->sessions[i]);
+                ssh_write_knownhost(session->sessions[i]);
+        }
+        return 0;
+}
+
+int cwalter_session_disconnect(cwalter_session *session)
+{
+        for (int i = 0; i < session->session_length; i++) {
+                ssh_disconnect(session->sessions[i]);
+        }
         return 0;
 }
 

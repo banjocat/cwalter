@@ -34,6 +34,10 @@ static char *test_connect() {
         int connect = cwalter_session_connect(session);
         mu_assert("connect", connect == 0);
         mu_assert("session_length", session->session_length == 1);
+        for (int i = 0; i < session->session_length; i++) {
+                int status = ssh_get_status(session->sessions[i]);
+                mu_assert("status", ssh_get_status(session->sessions[i]) == 0);
+        }
         cwalter_session_free(session);
 }
 

@@ -22,6 +22,7 @@ cwalter_session *cwalter_session_new(
 int cwalter_session_free(cwalter_session *cwalter_session);
 
 int cwalter_session_connect(cwalter_session *session);
+int cwalter_session_disconnect(cwalter_session *session);
 
 
 void cwalter_print_config(cwalter_config *config);
