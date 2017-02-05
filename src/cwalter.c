@@ -1,13 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <libssh2.h>
-#include <libssh2_sftp.h>
+#include <string.h>
+#include <assert.h>
+#include <libssh/libssh.h>
 #include "cwalter.h"
 
+
 static char *create_string(const char *str);
+static cwalter_config *cwalter_config_new(
+        int port, char *user, char *pem,
+        const char **ips, size_t ips_len);
 
+static int cwalter_config_free(cwalter_config *config);
 
-cwalter_config *cwalter_init_config(
+cwalter_session *cwalter_session_new(
+        int port, char *user, char *pem,
+        const char **ips, size_t ips_len)
+{
+        assert(user && pem && ips);
+        cwalter_session *session = malloc(sizeof(cwalter_session));
+        session->config = cwalter_config_new(
+                        port, user, pem, ips, ips_len);
+        return session;
+}
+
+int cwalter_session_free(cwalter_session *session)
+{
+        cwalter_config_free(session->config);
+        free(session);
+        return 0;
+}
+
+int cwalter_session_connect(cwalter_session *session)
+{
+        return 0;
+}
+
+cwalter_config *cwalter_config_new(
                 int port, char *user, char *pem,
                 const char **ips, size_t ips_len)
 {
@@ -23,7 +52,10 @@ cwalter_config *cwalter_init_config(
         return config;
 }
 
-int cwalter_free_config(cwalter_config *config)
+
+
+
+int cwalter_config_free(cwalter_config *config)
 {
         free(config->user);
         free(config->pem);
@@ -47,6 +79,9 @@ void cwalter_print_config(cwalter_config *config)
                         config->port, config->user, config->pem);
 }
 
+/*
+ * mallocs parameter and returns point
+ */
 char* create_string(const char *str)
 {
         int len = strlen(str) + 1;
@@ -54,3 +89,6 @@ char* create_string(const char *str)
         strcpy(string, str);
         return string;
 }
+
+
+
