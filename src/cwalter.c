@@ -25,16 +25,23 @@ cwalter_session *cwalter_session_new(
         session->config = cwalter_config_new(
                         port, user, pem, ips, ips_len);
         session->session_length = ips_len;
-        ssh_session sessions[ips_len];
+        ssh_session *sessions = malloc(sizeof(ssh_session) * ips_len);
         for (int i = 0; i < ips_len; i++) {
                 sessions[i] = ssh_new();
+                assert(sessions[i]);
+                ssh_options_set(sessions[i], SSH_OPTIONS_HOST, ips[i]);
+                ssh_options_set(sessions[i], SSH_OPTIONS_PORT, &port);
         }
+        session->sessions = sessions;
         return session;
 }
 
 int cwalter_session_free(cwalter_session *session)
 {
         cwalter_config_free(session->config);
+        for (int i = 0; i < session->session_length; i++) {
+                ssh_free(session->sessions[i]);
+        }
         free(session);
         return 0;
 }
